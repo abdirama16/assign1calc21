@@ -28,10 +28,13 @@ const App = () => {
   const numClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
+    console.log("value yang diklik = "+value)
     if(removeSpaces(calc.num).length < 16){
       setCalc({
         ...calc,
-        num: calc.num === 0 && value === "0" ? "0" : removeSpaces(calc.num) % 1 === 0 ? toLocaleString(Number(removeSpaces(calc.num + value))) : toLocaleString(calc.num + value), 
+        num: calc.num === 0 && value === "0" ? "0" 
+        : removeSpaces(calc.num) % 1 === 0 ? toLocaleString(Number(removeSpaces(calc.num + value))) 
+        : toLocaleString(calc.num + value), 
         res: !calc.sign ? 0 : calc.res, 
       })
     }
@@ -47,10 +50,12 @@ const App = () => {
   }
 
   const clearEntryHandler = () => {
+    let nomor = calc.num;
+    console.log("nomor awal "+nomor)
     setCalc({
       ...calc,
       sign: "",
-      num: 0,
+      num: nomor.length>0 ? nomor.slice(0, -1) : nomor,
       res: 0,
     })
   }
@@ -83,9 +88,11 @@ const App = () => {
       : sign === "-" ? a-b
       : sign === "*" ? a*b
       : a / b;
+
       setCalc({
         ...calc,
-        res: calc.num === "0" && calc.sign === "/" ? "invalid devide with zero" : toLocaleString(math(Number(removeSpaces(calc.res)), Number(removeSpaces(calc.num)),calc.sign)),
+        res: calc.num === "0" && calc.sign === "/" ? "invalid devide with zero" 
+        : removeSpaces(calc.num).concat(calc.sign).concat(removeSpaces(calc.res)).concat("=").concat(toLocaleString(math(Number(removeSpaces(calc.res)), Number(removeSpaces(calc.num)),calc.sign))),
         sign: "",
         num: 0,
       })
@@ -95,6 +102,7 @@ const App = () => {
   const signClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
+    console.log("isi operand = "+value)
     
     setCalc({
       ...calc,
